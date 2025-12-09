@@ -125,7 +125,7 @@ compilation time for your crate's users. You can do this like so:
 
 ```toml
 [dependencies]
-spin = { version = "x.y", default-features = false, features = [...] }
+spin = { version = "x.y", default-features = false, features = ["..."] }
 ```
 
 ## Minimum Supported Rust Version (MSRV)
