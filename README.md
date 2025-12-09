@@ -1,7 +1,7 @@
 # spin-rs
 
-[![Crates.io version](https://img.shields.io/crates/v/spin.svg)](https://crates.io/crates/spin)
-[![docs.rs](https://docs.rs/spin/badge.svg)](https://docs.rs/spin/)
+[![crates.io Version](https://img.shields.io/crates/v/spin.svg)](https://crates.io/crates/spin)
+[![Docs.rs](https://docs.rs/spin/badge.svg)](https://docs.rs/spin)
 [![Build Status](https://github.com/zesterer/spin-rs/actions/workflows/rust.yml/badge.svg)](https://github.com/zesterer/spin-rs/actions)
 
 Spin-based synchronization primitives.
@@ -12,7 +12,7 @@ through spinning, the primitives are suitable for use in `no_std` environments.
 
 Before deciding to use `spin`, we recommend reading
 [this superb blog post](https://matklad.github.io/2020/01/02/spinlocks-considered-harmful.html)
-by [@matklad](https://github.com/matklad/) that discusses the pros and cons of
+by [@matklad](https://github.com/matklad) that discusses the pros and cons of
 spinlocks. If you have access to `std`, it's likely that the primitives in
 `std::sync` will serve you better except in very specific circumstances.
 
@@ -29,7 +29,8 @@ spinlocks. If you have access to `std`, it's likely that the primitives in
 
 ## Usage
 
-Include the following under the `[dependencies]` section in your `Cargo.toml` file.
+Include the following under the `[dependencies]` section in your `Cargo.toml`
+file:
 
 ```toml
 spin = "x.y"
@@ -66,7 +67,7 @@ fn main() {
 }
 ```
 
-## Feature flags
+## Feature Flags
 
 The crate comes with a few feature flags that you may wish to use.
 
@@ -76,9 +77,10 @@ The crate comes with a few feature flags that you may wish to use.
 
 - `ticket_mutex` enables the `TicketMutex` type.
 
-- `use_ticket_mutex` switches to a ticket lock for the implementation of `Mutex`. This
-  is recommended only on targets for which ordinary spinning locks perform very badly
-  because it will change the implementation used by other crates that depend on `spin`.
+- `use_ticket_mutex` switches to a ticket lock for the implementation of
+  `Mutex`. This is recommended only on targets for which ordinary spinning locks
+  perform very badly because it will change the implementation used by other
+  crates that depend on `spin`.
 
 - `rwlock` enables the `RwLock` type.
 
@@ -88,47 +90,50 @@ The crate comes with a few feature flags that you may wish to use.
 
 - `barrier` enables the `Barrier` type.
 
-- `lock_api` enables support for [`lock_api`](https://crates.io/crates/lock_api)
+- `lock_api` enables support for
+  [`lock_api`](https://crates.io/crates/lock_api).
 
 - `std` enables support for thread yielding instead of spinning.
 
-- `portable-atomic` enables usage of the `portable-atomic` crate
-  to support platforms without native atomic operations (Cortex-M0, etc.).
-  The `portable_atomic_unsafe_assume_single_core` or `critical-section` feature
-  of `portable-atomic` crate must also be set by the final binary crate.
-  See the documentation for the `portable-atomic` crate for more information
-  with some requirements for no-std build:
-  https://github.com/taiki-e/portable-atomic#optional-features
+- `portable-atomic` enables usage of the `portable-atomic` crate to support
+  platforms without native atomic operations (Cortex-M0, etc.). The
+  `portable_atomic_unsafe_assume_single_core` or `critical-section` feature of
+  the `portable-atomic` crate must also be set by the final binary crate. See
+  the documentation for the `portable-atomic` crate for more information with
+  some requirements for no-std builds:
+  https://github.com/taiki-e/portable-atomic#optional-features.
 
 ## Remarks
 
-It is often desirable to have a lock shared between threads. Wrapping the lock in an
-`std::sync::Arc` is route through which this might be achieved.
+It is often desirable to have a lock shared between threads. Wrapping the lock
+in an `std::sync::Arc` is a route through which this might be achieved.
 
 Locks provide zero-overhead access to their data when accessed through a mutable
 reference by using their `get_mut` methods.
 
-The behaviour of these lock is similar to their namesakes in `std::sync`. they
+The behaviour of these locks is similar to their namesakes in `std::sync`. They
 differ on the following:
 
 - Locks will not be poisoned in case of failure.
-- Threads will not yield to the OS scheduler when encounter a lock that cannot be
-  accessed. Instead, they will 'spin' in a busy loop until the lock becomes available.
+- Threads will not yield to the OS scheduler when they encounter a lock that
+  cannot be accessed. Instead, they will 'spin' in a busy loop until the lock
+  becomes available.
 
-Many of the feature flags listed above are enabled by default. If you're writing a
-library, we recommend disabling those that you don't use to avoid increasing compilation
-time for your crate's users. You can do this like so:
+Many of the feature flags listed above are enabled by default. If you're writing
+a library, we recommend disabling those that you don't use to avoid increasing
+compilation time for your crate's users. You can do this like so:
 
-```
+```toml
 [dependencies]
 spin = { version = "x.y", default-features = false, features = [...] }
 ```
 
-## Minimum Safe Rust Version (MSRV)
+## Minimum Supported Rust Version (MSRV)
 
-This crate is guaranteed to compile on a Minimum Safe Rust Version (MSRV) of 1.60.0 and above.
-This version will not be changed without a minor version bump.
+This crate is guaranteed to compile on a minimum supported Rust version (MSRV)
+of 1.71.0 and above. This version will not be changed without a minor version
+bump.
 
 ## License
 
-`spin` is distributed under the MIT License, (See `LICENSE`).
+`spin` is distributed under the MIT License, (see `LICENSE`).
